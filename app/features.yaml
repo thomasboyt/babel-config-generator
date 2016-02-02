@@ -248,3 +248,4 @@ presets:
     features:
       - transform-flow-strip-types
       - transform-react-jsx
+      - transform-react-display-name
