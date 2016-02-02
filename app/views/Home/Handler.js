@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import I from 'immutable';
+import range from 'lodash.range';
+import classNames from 'classnames';
 
 import {addFeature, removeFeature, addPreset, removePreset} from '../../actions/FeatureActions';
 
@@ -39,18 +41,30 @@ function getInstallCommand({features, presets}) {
     .map((preset, name) => `babel-preset-${name}`).toList();
 
   const featurePackages = features.map((feature, key) => {
-    const main = `babel-plugin-${key}`;
+    const defaultPluginName = `babel-plugin-${key}`;
+
+    let plugins;
+
+    if (feature.get('plugins')) {
+      plugins = feature.get('plugins');
+    } else {
+      plugins = I.List([defaultPluginName]);
+    }
 
     if (feature.get('runtime')) {
-      return I.List([main, feature.get('runtime')]);
-    } else {
-      return main;
+      plugins = plugins.push(feature.get('runtime'));
     }
+
+    return plugins;
   }).toList().flatten();
 
-  const packages = presetPackages.concat(featurePackages).toJS().join(' ');
+  const prefixCmd = 'npm install --save-dev ';
+  const indentation = range(0, prefixCmd.length).map(() => ' ').join('');
+  const packages = I.List(['babel', 'babel-core'])
+    .concat(presetPackages)
+    .concat(featurePackages).toJS().join(` \\\n${indentation}`);
 
-  return `npm install --save-dev ${packages}`;
+  return `${prefixCmd}${packages}`;
 }
 
 const Home = React.createClass({
@@ -74,8 +88,12 @@ const Home = React.createClass({
     }
   },
 
-  renderFeatures() {
-    return sortedMap(this.props.features).map((feature, key) => {
+  renderSection(section) {
+    const sectionName = this.props.sections.get(section);
+
+    const features = this.props.features.filter((feature) => feature.get('section') === section);
+
+    const featureItems = sortedMap(features).map((feature, key) => {
       const isSelected = this.props.selectedFeatures.has(key);
 
       const inPreset = this.props.selectedPresets.some((name) => {
@@ -86,7 +104,7 @@ const Home = React.createClass({
       return (
         <li key={key}>
           <div className="checkbox">
-            <label>
+            <label className={classNames({'selected': isSelected || inPreset})}>
               <input type="checkbox" style={{position: 'static'}} checked={isSelected || inPreset}
                 disabled={inPreset} onChange={(e) => this.toggleFeature(key, e)} />
               {' '}
@@ -96,6 +114,35 @@ const Home = React.createClass({
         </li>
       );
     }).toList().toJS();
+
+    return (
+      <div>
+        <h3>{sectionName}</h3>
+        <ul className="list-unstyled">
+          {featureItems}
+        </ul>
+      </div>
+    );
+  },
+
+  renderFeaturesSections() {
+    return (
+      <div>
+        <div className="row">
+          <div className="col-md-4">
+            {this.renderSection('es2015')}
+          </div>
+          <div className="col-md-4">
+            {this.renderSection('es2015-modules')}
+            {this.renderSection('experimental')}
+          </div>
+          <div className="col-md-4">
+            {this.renderSection('react')}
+            {this.renderSection('other')}
+          </div>
+        </div>
+      </div>
+    );
   },
 
   renderPresets() {
@@ -103,15 +150,13 @@ const Home = React.createClass({
       const isSelected = this.props.selectedPresets.has(key);
 
       return (
-        <li key={key}>
-          <div className="checkbox">
-            <label>
-              <input type="checkbox" style={{position: 'static'}} checked={isSelected}
-                onChange={(e) => this.togglePreset(key, e)} />
-              {' '}
-              {key}
-            </label>
-          </div>
+        <li key={key} className="list-inline-item">
+          <label className="checkbox-inline">
+            <input type="checkbox" checked={isSelected}
+              onChange={(e) => this.togglePreset(key, e)} />
+            {' '}
+            {key}
+          </label>
         </li>
       );
     }).toList().toJS();
@@ -147,13 +192,16 @@ const Home = React.createClass({
   render() {
     return (
       <div className="container">
-        <h2>Features</h2>
-        <ul>
-          {this.renderFeatures()}
-        </ul>
         <h2>Presets</h2>
-        <ul>
+
+        <ul className="list-inline">
           {this.renderPresets()}
+        </ul>
+
+        <h2>Features</h2>
+
+        <ul className="list-unstyled">
+          {this.renderFeaturesSections()}
         </ul>
 
         <h2>Config</h2>
@@ -172,6 +220,7 @@ function select(state) {
     features: state.features.features,
     selectedPresets: state.features.selectedPresets,
     selectedFeatures: state.features.selectedFeatures,
+    sections: state.features.sections,
   };
 }
 

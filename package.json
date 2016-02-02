@@ -13,8 +13,10 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.2",
+    "classnames": "^2.2.3",
     "earthling": "0.0.3",
     "immutable": "^3.7.6",
+    "lodash.range": "^3.1.0",
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.2",
     "redux-thunk": "^1.0.3"

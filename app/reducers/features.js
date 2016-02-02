@@ -12,6 +12,7 @@ import {
 const State = I.Record({
   features: null,
   presets: null,
+  sections: null,
   selectedFeatures: I.Set(),
   selectedPresets: I.Set(),
 });
@@ -20,7 +21,8 @@ const featureReducer = createImmutableReducer(new State(), {
   [LOAD_FEATURES]: function({data}, state) {
     return state.merge({
       features: I.fromJS(data.features),
-      presets: I.fromJS(data.presets)
+      presets: I.fromJS(data.presets),
+      sections: I.fromJS(data.sections),
     });
   },
 
