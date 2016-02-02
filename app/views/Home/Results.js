@@ -20,22 +20,21 @@ function featureInPresets(presets, featureKey) {
 }
 
 function getConfig({features, presets}) {
-  const presetConfig = presets.map((preset, name) => name).toList().toJS();
+  const presetCfg = presets.map((preset, name) => name).toList().toJS();
 
   // filter
-  const pluginConfig = features.map((preset, key) => 'babel-plugin-' + key).toList().toJS();
+  const plugins = getPackages(features).map((packageName) => {
+    return packageName.replace('babel-plugin-', '');
+  });
 
   return JSON.stringify({
-    presets: presetConfig,
-    plugins: pluginConfig,
+    presets: presetCfg,
+    plugins,
   }, null, '  ');
 }
 
-function getInstallCommand({features, presets}) {
-  const presetPackages = presets
-    .map((preset, name) => `babel-preset-${name}`).toList();
-
-  const featurePackages = features.map((feature, key) => {
+function getPackages(features) {
+  return features.map((feature, key) => {
     const defaultPluginName = `babel-plugin-${key}`;
 
     let plugins;
@@ -52,6 +51,13 @@ function getInstallCommand({features, presets}) {
 
     return plugins;
   }).toList().flatten();
+}
+
+function getInstallCommand({features, presets}) {
+  const presetPackages = presets
+    .map((preset, name) => `babel-preset-${name}`).toList();
+
+  const featurePackages = getPackages(features);
 
   const prefixCmd = 'npm install --save-dev ';
   const indentation = range(0, prefixCmd.length).map(() => ' ').join('');
