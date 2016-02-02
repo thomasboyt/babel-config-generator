@@ -70,11 +70,6 @@ features:
   transform-es2015-unicode-regex:
     name: RegExp Unicode Flag
     section: es2015
-  transform-regenerator:
-    name: Generators (Regenerator)
-    section: es2015
-    runtime:
-      - babel-regenerator-runtime
 
   transform-es2015-modules-amd:
     name: ES2015 Modules to AMD
@@ -169,8 +164,7 @@ features:
     plugins:
       - babel-plugin-transform-regenerator
       - babel-plugin-syntax-async-functions
-    runtime:
-      - babel-regenerator-runtime
+    runtime: babel-regenerator-runtime
     section: other
   transform-flow-comments:
     name: "Flow: Comment Out Types"

@@ -29,6 +29,26 @@ const FeaturePicker = React.createClass({
     }
   },
 
+  renderUsageNotes(key, feature) {
+    const runtime = feature.get('runtime');
+
+    if (runtime) {
+      return (
+        <div>
+          <p>
+            <span className="text-danger"><strong>This plugin requires a runtime polyfill. </strong></span>
+            Add this to your application's entry point before importing any code using it:
+          </p>
+          <pre>
+            {`require('${runtime}');`}
+          </pre>
+        </div>
+      );
+    }
+
+    return null;
+  },
+
   renderSection(section) {
     const sectionName = this.props.sections.get(section);
 
@@ -52,6 +72,8 @@ const FeaturePicker = React.createClass({
               {feature.get('name')}
             </label>
           </div>
+
+          {(isSelected || inPreset) && this.renderUsageNotes(key, feature)}
         </li>
       );
     }).toList().toJS();
