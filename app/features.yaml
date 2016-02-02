@@ -7,50 +7,186 @@
 #
 # if plugins is not defined, plugins == slug
 #
+
+sections:
+  es2015: "ES2015"
+  es2015-modules: "Modules"
+  experimental: "Experimental"
+  react: "React"
+  other: "Other"
+
 features:
   check-es2015-constants:
     name: Validate ES2015 Constants
-
+    section: es2015
   transform-es2015-arrow-functions:
     name: Arrow Functions
+    section: es2015
   transform-es2015-block-scoped-functions:
     name: Block-Scoped Functions
+    section: es2015
   transform-es2015-block-scoping:
     name: Block Scoping
+    section: es2015
   transform-es2015-classes:
     name: Classes
+    section: es2015
   transform-es2015-computed-properties:
     name: Computed Properties
+    section: es2015
   transform-es2015-destructuring:
     name: Destructuring
+    section: es2015
   transform-es2015-for-of:
     name: for-of Loops
+    section: es2015
   transform-es2015-function-name:
     name: function.name
+    section: es2015
   transform-es2015-literals:
     name: Unicode String & Number Literals
-  transform-es2015-modules-commonjs:
-    name: ES2015 Modules to CommonJS
+    section: es2015
   transform-es2015-object-super:
     name: Object super()
+    section: es2015
   transform-es2015-parameters:
     name: Destructuring, Default, and Rest Parameters
+    section: es2015
   transform-es2015-shorthand-properties:
     name: Shorthand Properties
+    section: es2015
   transform-es2015-spread:
     name: Spread Operator
+    section: es2015
   transform-es2015-sticky-regex:
     name: RegExp Sticky Flag
+    section: es2015
   transform-es2015-template-literals:
     name: Template Literals
+    section: es2015
   transform-es2015-typeof-symbol:
     name: typeof symbol
+    section: es2015
   transform-es2015-unicode-regex:
     name: RegExp Unicode Flag
+    section: es2015
   transform-regenerator:
     name: Generators (Regenerator)
+    section: es2015
     runtime:
       - babel-regenerator-runtime
+
+  transform-es2015-modules-amd:
+    name: ES2015 Modules to AMD
+    section: es2015-modules
+  transform-es2015-modules-commonjs:
+    name: ES2015 Modules to CommonJS
+    section: es2015-modules
+  transform-es2015-modules-systemjs:
+    name: ES2015 Modules to SystemJS
+    section: es2015-modules
+  transform-es2015-modules-umd:
+    name: ES2015 Modules to UMD
+    section: es2015-modules
+
+  transform-async-to-generator:
+    name: Async Functions with Native Generators
+    plugins:
+      - babel-plugin-transform-async-to-generator
+      - babel-plugin-syntax-async-functions
+    section: experimental
+  # TODO: This has special options, see http://babeljs.io/docs/plugins/transform-async-to-module-method/
+  # transform-async-to-module-method:
+  #   name: Async Functions to Module Method
+  #   plugins:
+  #     - babel-plugin-transform-async-to-generator
+  #     - babel-plugin-syntax-async-functions
+  #   section: experimental
+  transform-class-constructor-call:
+    name: Callable Class Constructors
+    plugins:
+      - babel-plugin-transform-class-constructor-call
+      - babel-plugin-syntax-class-constructor-call
+    section: experimental
+  transform-class-properties:
+    name: Class Properties
+    plugins:
+      - babel-plugin-transform-class-properties
+      - babel-plugin-syntax-class-properties
+    section: experimental
+  transform-decorators:
+    name: Decorators
+    plugins:
+      - babel-plugin-transform-decorators
+      - babel-plugin-syntax-decorators
+    section: experimental
+  transform-do-expressions:
+    name: Do Expressions
+    plugins:
+      - babel-plugin-transform-do-expressions
+      - babel-plugin-syntax-do-expressions
+    section: experimental
+  transform-exponentation-operator:
+    name: Exponentation Operator
+    plugins:
+      - babel-plugin-transform-exponentation-operator
+      - babel-plugin-syntax-exponentation-operator
+    section: experimental
+  transform-export-extensions:
+    name: Export Extensions
+    plugins:
+      - babel-plugin-transform-export-extensions
+      - babel-plugin-syntax-export-extensions
+    section: experimental
+  transform-function-bind:
+    name: Function Bind Syntax
+    plugins:
+      - babel-plugin-transform-function-bind
+      - babel-plugin-syntax-function-bind
+    section: experimental
+  transform-object-rest-spread:
+    name: Object Rest Spread
+    plugins:
+      - babel-plugin-transform-object-rest-spread
+      - babel-plugin-syntax-object-rest-spread
+    section: experimental
+  syntax-trailing-function-commas:
+    name: Trailing Function Parameter Commas
+    section: experimental
+
+  transform-react-display-name:
+    name: Add displayName
+    section: react
+  transform-react-jsx:
+    name: JSX Transformation
+    plugins:
+      - babel-plugin-transform-react-jsx
+      - babel-plugin-syntax-jsx
+    section: react
+
+  transform-regenerator:
+    name: Async Functions with Regenerator
+    plugins:
+      - babel-plugin-transform-regenerator
+      - babel-plugin-syntax-async-functions
+    runtime:
+      - babel-regenerator-runtime
+    section: other
+  transform-flow-comments:
+    name: "Flow: Comment Out Types"
+    plugins:
+      - babel-plugin-transform-flow-comments
+      - babel-plugin-syntax-flow
+    section: other
+  transform-flow-strip-types:
+    name: "Flow: Strip Types"
+    plugins:
+      - babel-plugin-transform-flow-strip-types
+      - babel-plugin-syntax-flow
+    section: other
+  transform-strict-mode:
+    name: Add Strict Mode
+    section: other
 
 
 presets:
@@ -77,40 +213,38 @@ presets:
       - transform-es2015-unicode-regex
       - transform-regenerator
 
-  # stage-0:
-  #   plugins:
-  #     - transform-do-expressions
-  #     - transform-function-bind
-  #   presets:
-  #     - stage-1
-  #     - stage-2
-  #     - stage-3
-  #
-  # stage-1:
-  #   plugins:
-  #     - transform-class-constructor-call
-  #     - transform-class-properties
-  #     - transform-decorators
-  #     - transform-export-extensions
-  #   presets:
-  #     - stage-2
-  #     - stage-3
-  #
-  # stage-2:
-  #   plugins:
-  #     - syntax-trailing-function-commas
-  #     - transform-object-rest-spread
-  #   presets:
-  #     - stage-3
-  #
-  # stage-3:
-  #   plugins:
-  #     - transform-async-to-generator
-  #     - transform-exponentiation-operator
-  #
-  # react:
-  #   plugins:
-  #     - syntax-flow
-  #     - syntax-jsx
-  #     - transform-flow-strip-types
-  #     - transform-react-jsx
+  stage-0:
+    features:
+      - transform-do-expressions
+      - transform-function-bind
+    presets:
+      - stage-1
+      - stage-2
+      - stage-3
+
+  stage-1:
+    features:
+      - transform-class-constructor-call
+      - transform-class-properties
+      - transform-decorators
+      - transform-export-extensions
+    presets:
+      - stage-2
+      - stage-3
+
+  stage-2:
+    features:
+      - syntax-trailing-function-commas
+      - transform-object-rest-spread
+    presets:
+      - stage-3
+
+  stage-3:
+    features:
+      - transform-async-to-generator
+      - transform-exponentiation-operator
+
+  react:
+    features:
+      - transform-flow-strip-types
+      - transform-react-jsx
