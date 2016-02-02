@@ -1,13 +1,27 @@
 @import '~bootstrap/scss/bootstrap';
 
+$babel-yellow: #f5da55;
+
+.jumbotron {
+  background: $babel-yellow;
+}
+
 a {
   cursor: pointer;
 }
 
-body {
-  margin-top: 20px;
-}
-
 label.selected {
   font-weight: bold;
+}
+
+pre {
+  background: #f5f5f5;
+  padding: 10px;
+}
+
+footer {
+  background: #eee;
+  padding: 40px;
+  margin: 60px auto 0px;
+  text-align: center;
 }
