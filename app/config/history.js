@@ -2,6 +2,8 @@
  * Export your prefered react-router history here.
  */
 
-import { hashHistory } from 'react-router';
+import { createMemoryHistory } from 'react-router';
 
-export default hashHistory;
+const memoryHistory = createMemoryHistory(location);
+
+export default memoryHistory;
