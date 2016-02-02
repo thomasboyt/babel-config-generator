@@ -1,0 +1,30 @@
+{
+  "name": "babel-config-gen",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "test": "earthling test --single-run",
+    "start": "earthling serve",
+    "build": "earthling build"
+  },
+  "author": "",
+  "repository": "",
+  "license": "MIT",
+  "dependencies": {
+    "earthling": "0.0.3",
+    "immutable": "^3.7.6",
+    "redux-devtools-dock-monitor": "^1.0.1",
+    "redux-devtools-log-monitor": "^1.0.2",
+    "redux-thunk": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-react-hmre": "^1.0.1",
+    "css-loader": "^0.23.1",
+    "expect": "^1.13.4",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.11"
+  }
+}
