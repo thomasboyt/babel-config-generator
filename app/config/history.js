@@ -2,6 +2,6 @@
  * Export your prefered react-router history here.
  */
 
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
-export default browserHistory;
+export default hashHistory;
