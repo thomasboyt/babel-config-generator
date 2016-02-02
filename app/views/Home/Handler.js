@@ -151,7 +151,7 @@ const Home = React.createClass({
 
       return (
         <li key={key} className="list-inline-item">
-          <label className="checkbox-inline">
+          <label className={classNames('checkbox-inline', {'selected': isSelected})}>
             <input type="checkbox" checked={isSelected}
               onChange={(e) => this.togglePreset(key, e)} />
             {' '}
