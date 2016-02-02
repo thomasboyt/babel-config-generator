@@ -5,20 +5,20 @@
 import webpack from 'webpack';
 
 export default function generateConfig(environment) {
-  // TODO: don't use a loader string... use a config obj instead
-
-  let cssLoaderString = 'css-loader';
-
-  if (environment === 'production') {
-    cssLoaderString = 'css-loader?minimize=1';
-  }
-
   return {
     module: {
       loaders: [
         {
+          test: /\.scss$/,
+          loaders: ['style', 'css', 'sass']
+        },
+        {
           test: /\.css$/,
-          loader: `style-loader!${cssLoaderString}`
+          loaders: ['style', 'css']
+        },
+        {
+          test: /\.(eot|otf|svg|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'file-loader'
         }
       ]
     }
