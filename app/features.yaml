@@ -86,64 +86,34 @@ features:
 
   transform-async-to-generator:
     name: Async Functions with Native Generators
-    plugins:
-      - babel-plugin-transform-async-to-generator
-      - babel-plugin-syntax-async-functions
     section: experimental
   # TODO: This has special options, see http://babeljs.io/docs/plugins/transform-async-to-module-method/
   # transform-async-to-module-method:
   #   name: Async Functions to Module Method
-  #   plugins:
-  #     - babel-plugin-transform-async-to-generator
-  #     - babel-plugin-syntax-async-functions
   #   section: experimental
   transform-class-constructor-call:
     name: Callable Class Constructors
-    plugins:
-      - babel-plugin-transform-class-constructor-call
-      - babel-plugin-syntax-class-constructor-call
     section: experimental
   transform-class-properties:
     name: Class Properties
-    plugins:
-      - babel-plugin-transform-class-properties
-      - babel-plugin-syntax-class-properties
     section: experimental
   transform-decorators:
     name: Decorators
-    plugins:
-      - babel-plugin-transform-decorators
-      - babel-plugin-syntax-decorators
     section: experimental
   transform-do-expressions:
     name: Do Expressions
-    plugins:
-      - babel-plugin-transform-do-expressions
-      - babel-plugin-syntax-do-expressions
     section: experimental
   transform-exponentation-operator:
     name: Exponentation Operator
-    plugins:
-      - babel-plugin-transform-exponentation-operator
-      - babel-plugin-syntax-exponentation-operator
     section: experimental
   transform-export-extensions:
     name: Export Extensions
-    plugins:
-      - babel-plugin-transform-export-extensions
-      - babel-plugin-syntax-export-extensions
     section: experimental
   transform-function-bind:
     name: Function Bind Syntax
-    plugins:
-      - babel-plugin-transform-function-bind
-      - babel-plugin-syntax-function-bind
     section: experimental
   transform-object-rest-spread:
     name: Object Rest Spread
-    plugins:
-      - babel-plugin-transform-object-rest-spread
-      - babel-plugin-syntax-object-rest-spread
     section: experimental
   syntax-trailing-function-commas:
     name: Trailing Function Parameter Commas
@@ -154,9 +124,6 @@ features:
     section: react
   transform-react-jsx:
     name: JSX Transformation
-    plugins:
-      - babel-plugin-transform-react-jsx
-      - babel-plugin-syntax-jsx
     section: react
 
   transform-regenerator:
@@ -168,15 +135,9 @@ features:
     section: other
   transform-flow-comments:
     name: "Flow: Comment Out Types"
-    plugins:
-      - babel-plugin-transform-flow-comments
-      - babel-plugin-syntax-flow
     section: other
   transform-flow-strip-types:
     name: "Flow: Strip Types"
-    plugins:
-      - babel-plugin-transform-flow-strip-types
-      - babel-plugin-syntax-flow
     section: other
   transform-strict-mode:
     name: Add Strict Mode
