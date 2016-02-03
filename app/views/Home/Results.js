@@ -21,7 +21,7 @@ function getConfig({features, presets}) {
   }, null, '  ');
 }
 
-function getPackages(features) {
+function getPackages(features, {includeRuntime}={}) {
   return features.map((feature, key) => {
     const defaultPluginName = `babel-plugin-${key}`;
 
@@ -33,7 +33,7 @@ function getPackages(features) {
       plugins = I.List([defaultPluginName]);
     }
 
-    if (feature.get('runtime')) {
+    if (includeRuntime && feature.get('runtime')) {
       plugins = plugins.push(feature.get('runtime'));
     }
 
@@ -45,7 +45,7 @@ function getInstallCommand({features, presets}) {
   const presetPackages = presets
     .map((preset, name) => `babel-preset-${name}`).toList();
 
-  const featurePackages = getPackages(features);
+  const featurePackages = getPackages(features, {includeRuntime: true});
 
   const prefixCmd = 'npm install --save-dev ';
   const indentation = range(0, prefixCmd.length).map(() => ' ').join('');
