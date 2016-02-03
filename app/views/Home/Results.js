@@ -7,13 +7,32 @@ import {getSelected} from '../../selectors/features';
 
 import SelectPre from './SelectPre';
 
+function getPlugins(features) {
+  return features.map((feature, key) => {
+    let plugins;
+
+    if (feature.get('plugins')) {
+      plugins = feature.get('plugins').map((pluginNameOrList) => {
+        if (pluginNameOrList instanceof I.List) {
+          return pluginNameOrList.update(0, (pluginName) => pluginName.replace('babel-plugin-', ''));
+        } else {
+          return pluginNameOrList.replace('babel-plugin-', '');
+        }
+      });
+
+    } else {
+      plugins = I.List([key]);
+    }
+
+    return plugins;
+  }).toList().flatten(true);
+}
+
 function getConfig({features, presets}) {
   const presetCfg = presets.map((preset, name) => name).toList().toJS();
 
   // filter
-  const plugins = getPackages(features).map((packageName) => {
-    return packageName.replace('babel-plugin-', '');
-  });
+  const plugins = getPlugins(features);
 
   return JSON.stringify({
     presets: presetCfg,
@@ -21,7 +40,7 @@ function getConfig({features, presets}) {
   }, null, '  ');
 }
 
-function getPackages(features, {includeRuntime}={}) {
+function getPackages(features) {
   return features.map((feature, key) => {
     const defaultPluginName = `babel-plugin-${key}`;
 
@@ -33,7 +52,7 @@ function getPackages(features, {includeRuntime}={}) {
       plugins = I.List([defaultPluginName]);
     }
 
-    if (includeRuntime && feature.get('runtime')) {
+    if (feature.get('runtime')) {
       plugins = plugins.push(feature.get('runtime'));
     }
 
@@ -45,7 +64,7 @@ function getInstallCommand({features, presets}) {
   const presetPackages = presets
     .map((preset, name) => `babel-preset-${name}`).toList();
 
-  const featurePackages = getPackages(features, {includeRuntime: true});
+  const featurePackages = getPackages(features);
 
   const prefixCmd = 'npm install --save-dev ';
   const indentation = range(0, prefixCmd.length).map(() => ' ').join('');

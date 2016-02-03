@@ -126,13 +126,6 @@ features:
     name: JSX Transformation
     section: react
 
-  transform-regenerator:
-    name: Async Functions with Regenerator
-    plugins:
-      - babel-plugin-transform-regenerator
-      - babel-plugin-syntax-async-functions
-    runtime: babel-regenerator-runtime
-    section: other
   transform-flow-comments:
     name: "Flow: Comment Out Types"
     section: other
@@ -141,6 +134,26 @@ features:
     section: other
   transform-strict-mode:
     name: Add Strict Mode
+    section: other
+
+  # Regenerator w/o async function support
+  regenerator-only-generators:
+    name: Generators (w/ Regenerator)
+    plugins:
+      -
+        - babel-plugin-transform-regenerator
+        - async: false
+          asyncGenerators: false
+    runtime: babel-regenerator-runtime
+    section: other
+
+  # Regenerator w/ async function support
+  transform-regenerator:
+    name: Async Functions & Generators (w/ Regenerator)
+    plugins:
+      - babel-plugin-transform-regenerator
+      - babel-plugin-syntax-async-functions
+    runtime: babel-regenerator-runtime
     section: other
 
 
@@ -166,7 +179,7 @@ presets:
       - transform-es2015-template-literals
       - transform-es2015-typeof-symbol
       - transform-es2015-unicode-regex
-      - transform-regenerator
+      - regenerator-only-generators
 
   react:
     features:
