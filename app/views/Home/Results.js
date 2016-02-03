@@ -1,23 +1,11 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import I from 'immutable';
+import {connect} from 'react-redux';
 import range from 'lodash.range';
 
+import {getSelected} from '../../selectors/features';
+
 import SelectPre from './SelectPre';
-
-function keyIn(keys) {
-  var keySet = I.Set(keys); 
-  return (v, k) => {
-    return keySet.has(k);
-  };
-}
-
-function featureInPresets(presets, featureKey) {
-  return presets.some((preset) => {
-    // TODO: convert features to set and use has() instead of includes()
-    return preset.get('features').includes(featureKey);
-  });
-}
 
 function getConfig({features, presets}) {
   const presetCfg = presets.map((preset, name) => name).toList().toJS();
@@ -69,21 +57,13 @@ function getInstallCommand({features, presets}) {
 }
 
 const Results = React.createClass({
-  getSelected() {
-    const presets = this.props.presets.filter(keyIn(this.props.selectedPresets));
-
-    // filter out features that are already in a preset
-    const features = this.props.features
-      .filter(keyIn(this.props.selectedFeatures))
-      .filter((feature, key) => !featureInPresets(presets, key));
-
-    return {features, presets};
-  },
-
   renderConfig() {
     return (
       <SelectPre>
-        {getConfig(this.getSelected())}
+        {getConfig({
+          features: this.props.selectedFeatures,
+          presets: this.props.selectedPresets,
+        })}
       </SelectPre>
     );
   },
@@ -91,7 +71,10 @@ const Results = React.createClass({
   renderInstallCommand() {
     return (
       <SelectPre>
-        {getInstallCommand(this.getSelected())}
+        {getInstallCommand({
+          features: this.props.selectedFeatures,
+          presets: this.props.selectedPresets,
+        })}
       </SelectPre>
     );
   },
@@ -128,12 +111,14 @@ const Results = React.createClass({
 });
 
 function select(state) {
+  const selected = getSelected(state.features);
+
   return {
     presets: state.features.presets,
     features: state.features.features,
-    selectedPresets: state.features.selectedPresets,
-    selectedFeatures: state.features.selectedFeatures,
     sections: state.features.sections,
+    selectedFeatures: selected.features,
+    selectedPresets: selected.presets,
   };
 }
 

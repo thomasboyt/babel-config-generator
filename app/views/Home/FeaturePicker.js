@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 
 import {addFeature, removeFeature, addPreset, removePreset} from '../../actions/FeatureActions';
+import {getSelected} from '../../selectors/features';
 
 function sortedMap(map) {
   return map.toOrderedMap().sortBy((val) => val.get('name'));
@@ -57,7 +58,7 @@ const FeaturePicker = React.createClass({
     const featureItems = sortedMap(features).map((feature, key) => {
       const isSelected = this.props.selectedFeatures.has(key);
 
-      const inPreset = this.props.selectedPresets.some((name) => {
+      const inPreset = this.props.selectedPresets.some((feature, name) => {
         // TODO: convert features to set and use has() instead of includes()
         return this.props.presets.get(name).get('features').includes(key);
       });
@@ -111,11 +112,14 @@ const FeaturePicker = React.createClass({
   renderPresets() {
     return this.props.presets.map((preset, key) => {
       const isSelected = this.props.selectedPresets.has(key);
+      // If it's in the original names, it was actually clicked by the user. Otherwise it's a
+      // dependency of a selected preset
+      const isDependency = isSelected && !this.props.selectedPresetNames.has(key);
 
       return (
         <li key={key} className="list-inline-item">
           <label className={classNames('checkbox-inline', {'selected': isSelected})}>
-            <input type="checkbox" checked={isSelected}
+            <input type="checkbox" checked={isSelected} disabled={isDependency}
               onChange={(e) => this.togglePreset(key, e)} />
             {' '}
             {key}
@@ -143,12 +147,15 @@ const FeaturePicker = React.createClass({
 });
 
 function select(state) {
+  const selected = getSelected(state.features);
+
   return {
     presets: state.features.presets,
     features: state.features.features,
-    selectedPresets: state.features.selectedPresets,
-    selectedFeatures: state.features.selectedFeatures,
     sections: state.features.sections,
+    selectedFeatures: selected.features,
+    selectedPresets: selected.presets,
+    selectedPresetNames: state.features.selectedPresets,
   };
 }
 

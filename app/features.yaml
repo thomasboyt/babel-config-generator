@@ -103,8 +103,8 @@ features:
   transform-do-expressions:
     name: Do Expressions
     section: experimental
-  transform-exponentation-operator:
-    name: Exponentation Operator
+  transform-exponentiation-operator:
+    name: Exponentiation Operator
     section: experimental
   transform-export-extensions:
     name: Export Extensions
