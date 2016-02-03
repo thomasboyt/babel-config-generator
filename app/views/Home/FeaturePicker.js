@@ -79,7 +79,7 @@ const FeaturePicker = React.createClass({
     }).toList().toJS();
 
     return (
-      <div>
+      <div className="feature-section">
         <h4>{sectionName}</h4>
         <ul className="list-unstyled">
           {featureItems}
@@ -130,13 +130,13 @@ const FeaturePicker = React.createClass({
       <div>
         <h3>Presets</h3>
 
-        <ul className="list-inline">
-          {this.renderPresets()}
-        </ul>
+        <div className="feature-section">
+          <ul className="list-inline">
+            {this.renderPresets()}
+          </ul>
+        </div>
 
-        <ul className="list-unstyled">
-          {this.renderFeaturesSections()}
-        </ul>
+        {this.renderFeaturesSections()}
       </div>
     );
   }

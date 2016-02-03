@@ -168,6 +168,12 @@ presets:
       - transform-es2015-unicode-regex
       - transform-regenerator
 
+  react:
+    features:
+      - transform-flow-strip-types
+      - transform-react-jsx
+      - transform-react-display-name
+
   stage-0:
     features:
       - transform-do-expressions
@@ -198,9 +204,3 @@ presets:
     features:
       - transform-async-to-generator
       - transform-exponentiation-operator
-
-  react:
-    features:
-      - transform-flow-strip-types
-      - transform-react-jsx
-      - transform-react-display-name
